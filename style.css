@@ -1,0 +1,13 @@
+.error {
+    border-color: red;
+  }
+  .footer {
+    background: #12852d;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+    align-self: flex-end;
+    bottom: 0;
+    position: absolute;
+  }

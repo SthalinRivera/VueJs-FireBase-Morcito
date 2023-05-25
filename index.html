@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <title>VueMorcito</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="animation.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <div id="app">
+      <nav class="navbar navbar-expand-lg bg-success p-2 text-white "
+        style="color: #d75109;">
+        <div class="container-fluid">
+          <a class="navbar-brand text-light" href="#">VueMorcito</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#"></a>
+              </li>
+            </ul>
+            <div class="d-flex" role="search">
+              <button v-if="showLogOut" @click="logOut" type="button"
+                class="btn btn-outline-warning"><i
+                  class="fa-solid fa-power-off fa-beat" style="color: #ffdd00;"></i></button>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="container">
+
+        <div class="container text-center">
+
+          <div class="row">
+            <div class="col-sm">
+              <div class="card bg-danger mt-4 text-light" v-if="showDates">
+                <div class="card-header">
+                  <h5 class="card-title">Tiempo transcurrido:</h5>
+                </div>
+                <div class="card-body">
+                  <div class="container text-center">
+                    <div class="row">
+                      <div class="col">
+                        <p class="text-days">{{ days }}</p> dias
+                      </div>
+                      <div class="col">
+                        <p class="text-days">{{ hours }}</p>horas
+                      </div>
+                      <div class="col">
+                        <p class="text-days">{{ minutes }}</p>minutos
+                      </div>
+                    </div>
+                    <p class="text-seconds">{{ seconds }}</p>segundos
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content music -->
+              <div class="container d-flex justify-content-center my-4 mb-5 " v-if="showDates">
+                <div id="mobile-box">
+                  <!-- Card -->
+                  <div class="card">
+                    <div class="bg-image hover-overlay ripple"
+                      data-mdb-ripple-color="light">
+                      <img class="card-img-top"
+                        src="img/fondo-music.jpg"
+                        alt="Card image cap">
+                      <a href="#!">
+                        <div class="mask"
+                          style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                      </a>
+                    </div>
+                    <div class="card-body text-center">
+
+                      <h5 class="h5 font-weight-bold"><a href="#"
+                          target="_blank">Ed Sheeran</a></h5>
+                      <p class="mb-0">Photograph </p>
+
+                      <audio controls autoplay>
+                        <source src="img/audio.mp3" type="audio/mpeg">
+                      </audio>
+                    </div>
+                  </div>
+                  <!-- Card -->
+                </div>
+              </div>
+              <!-- Content -->
+
+            </div>
+            <div class="col-sm">
+              <div v-if="showFecha">
+                <div class="card mt-5  text-center  bg-success ">
+
+                  <div class="card-body">
+                    <h5 class="card-title mb-3 text-light ">Ingrese una fecha</h5>
+                    <input class="form-control mb-3" :disabled="isInputDisabled"
+                      type="date" v-model="userDate"
+                      @change="compareDates">
+
+                    <p>{{messageLogin}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="showDates">
+                <div class="card text-center mt-4">
+                  <div class="card-header">
+                    Fecha actual:
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text"> {{ currentDate }}</p>
+                  </div>
+                </div>
+                <div v-if="showDates">
+                  <div class="card text-center bg-danger mt-4 text-light">
+                    <div class="card-header">
+                      Nuestra Fecha:
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text"> {{ fechaFomateadaAniversario }}</p>
+                    </div>
+                  </div>
+
+                  <div class="card text-center mt-1">
+                    <div class="card-header">
+                      Recordatorio de Aniversario
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">
+
+                        <p>{{messageAniversario}}</p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+
+                <div class="mt-4" v-if="showDates">
+                  <form @submit.prevent="addUser" class="row g-3">
+                    <div class="input-group mb-3">
+                      <input v-model="mensaje" type="text"
+                        :class="{ 'error': isInputInvalid}"
+                        class="form-control"
+                        placeholder="Escribir un mensaje"
+                        aria-label="Recipient's username"
+                        aria-describedby="button-addon2">
+                      <button type="submit" class="btn btn-outline-secondary"><i
+                          class="fa-solid fa-plus fa-beat"
+                          style="color: #ffffff;"></i></button>
+                    </div>
+                  </form>
+                  <div v-for="item in users" v-bind:key="item.id">
+                    <div class="alert bg-success alert-dismissible fade show"
+                      role="alert">
+                     <p class="text-light">{{item.data.mensaje}}</p>
+                      <!-- <button  @click.prevent="updateUser(item.id)" type="button"
+                    class="btn-close" data-bs-dismiss="alert" aria-label="Close" aria-label="Close"><i
+                      class="fas fa-dice-six    "></i></button> -->
+                      <button @click.prevent="deleteUser(item.id)"
+                        type="button"
+                        class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+      <!-- MDB -->
+      <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+      <script
+        src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+      <script src="app-js.js"></script>
+      <script src="https://www.youtube.com/iframe_api"></script>
+      <script>const toastElList = document.querySelectorAll('.toast')
+    const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option))</script>
+      <script>
+
+
+  </script>
+    </body>
+
+  </html>

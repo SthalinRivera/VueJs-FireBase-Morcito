@@ -1,0 +1,22 @@
+
+body{
+    min-height: 40vh;
+    color: #fff;
+    background: linear-gradient(435deg,rgb(156, 70, 5),rgb(187, 77, 77),rgb(7, 197, 74),rgb(227, 10, 217));
+    background-size: 400% 400%;
+    position: relative;
+
+    display: grid;
+    animation: cambiar 10s ease-in-out infinite;
+    font-family: "Balsamiq Sans", cursive;
+    padding-bottom: 5em;
+}
+
+
+@keyframes cambiar{
+    0%{background-position: 0 50%;}
+    50%{background-position: 100% 50%;}
+    100%{background-position: 0 50%;}
+}
+
+
